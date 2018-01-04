@@ -75,36 +75,6 @@ public class RootController {
         username = usernameTextField.getText();
         password = passwordField.getText();
 
-//        if(LoginDAO.login(username, password)){
-//
-//            message.setTextFill(Color.rgb(0, 255, 0));
-//            message.setText(bundle.getString("login.password.correct"));
-//
-//            // Start  application, if logged
-//            RootAdminController appInstance = new RootAdminController();
-//
-//
-//            try {
-//                appInstance.startApp();
-//            } catch (IOException e) {
-//                System.err.println("Error launching app");
-//                e.printStackTrace();
-//            }
-//            // Close login window
-//            ((Node)(event.getSource())).getScene().getWindow().hide();
-//
-//
-//        } else {
-//
-//            message.setTextFill(Color.rgb(255, 0, 0));
-//            message.setText(bundle.getString("login.password.incorrect"));
-//            System.out.println(loader.getResources());
-//            usernameTextField.clear();
-//            passwordField.clear();
-//
-//        }
-
-        //////********
         int perm;
         if((perm = LoginDAO.login(username, password)) == -1){
             // Wrong pass
@@ -135,6 +105,7 @@ public class RootController {
                 currStage.setScene(scene);
 
                 RootAdminController rootAdminController = loader.getController();
+                rootAdminController.setLoggedUser(username);
                 rootAdminController.setRootController(rootController);
 
 
@@ -158,6 +129,7 @@ public class RootController {
                 currStage.setScene(scene);
 
                 RootUserController rootUserController = loader.getController();
+                rootUserController.setLoggedUser(username);
                 rootUserController.setRootController(rootController);
             }
 

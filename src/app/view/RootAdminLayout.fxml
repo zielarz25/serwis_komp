@@ -6,6 +6,6 @@
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.RootAdminController">
    <center>
-      <Label text="Admin panel" BorderPane.alignment="CENTER" />
+      <Label fx:id="label" text="User panel" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
