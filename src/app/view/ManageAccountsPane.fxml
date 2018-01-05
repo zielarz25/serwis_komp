@@ -4,7 +4,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -64,6 +67,32 @@
                </children>
             </GridPane>
             <Separator prefWidth="200.0" />
+            <ScrollPane>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <content>
+                  <TableView fx:id="usersTableView" prefHeight="225.0">
+                    <columns>
+                        <TableColumn fx:id="userIdColumn" prefWidth="100.0" text="%admin.userId" />
+                        <TableColumn fx:id="contractIdColumn" prefWidth="100.0" text="%admin.contractId" />
+                      <TableColumn fx:id="firstNameColumn" prefWidth="100.0" text="%admin.firstName" />
+                      <TableColumn fx:id="secondNameColumn" prefWidth="100.0" text="%admin.secondName" />
+                        <TableColumn fx:id="addressColumn" prefWidth="100.0" text="%admin.address" />
+                        <TableColumn fx:id="postCodeColumn" prefWidth="100.0" text="%admin.postCode" />
+                        <TableColumn fx:id="cityColumn" prefWidth="100.0" text="%admin.city" />
+                        <TableColumn fx:id="stateCoulmn" prefWidth="100.0" text="%admin.state" />
+                        <TableColumn fx:id="phoneColumn" prefWidth="100.0" text="%admin.phone" />
+                        <TableColumn fx:id="salaryColumn" prefWidth="100.0" text="%admin.salary" />
+                        <TableColumn fx:id="loginColumn" prefWidth="100.0" text="%admin.login" />
+                        <TableColumn fx:id="passColumn" prefWidth="100.0" text="%admin.pass" />
+                        <TableColumn fx:id="contractStartColumn" prefWidth="125.0" text="%admin.contractStart" />
+                        <TableColumn fx:id="contractEndColumn" prefWidth="125.0" text="%admin.contractEnd" />
+                        <TableColumn fx:id="admPrivColumn" prefWidth="100.0" text="%admin.admPriv" />
+                    </columns>
+                  </TableView>
+               </content>
+            </ScrollPane>
          </children>
          <padding>
             <Insets left="25.0" right="25.0" />
