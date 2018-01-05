@@ -77,19 +77,19 @@
                     <columns>
                         <TableColumn fx:id="userIdColumn" prefWidth="100.0" text="%admin.userId" />
                         <TableColumn fx:id="contractIdColumn" prefWidth="100.0" text="%admin.contractId" />
-                      <TableColumn fx:id="firstNameColumn" prefWidth="100.0" text="%admin.firstName" />
-                      <TableColumn fx:id="secondNameColumn" prefWidth="100.0" text="%admin.secondName" />
-                        <TableColumn fx:id="addressColumn" prefWidth="100.0" text="%admin.address" />
-                        <TableColumn fx:id="postCodeColumn" prefWidth="100.0" text="%admin.postCode" />
-                        <TableColumn fx:id="cityColumn" prefWidth="100.0" text="%admin.city" />
-                        <TableColumn fx:id="stateCoulmn" prefWidth="100.0" text="%admin.state" />
-                        <TableColumn fx:id="phoneColumn" prefWidth="100.0" text="%admin.phone" />
-                        <TableColumn fx:id="salaryColumn" prefWidth="100.0" text="%admin.salary" />
-                        <TableColumn fx:id="loginColumn" prefWidth="100.0" text="%admin.login" />
-                        <TableColumn fx:id="passColumn" prefWidth="100.0" text="%admin.pass" />
-                        <TableColumn fx:id="contractStartColumn" prefWidth="125.0" text="%admin.contractStart" />
-                        <TableColumn fx:id="contractEndColumn" prefWidth="125.0" text="%admin.contractEnd" />
-                        <TableColumn fx:id="admPrivColumn" prefWidth="100.0" text="%admin.admPriv" />
+                      <TableColumn fx:id="firstNameColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.firstName" />
+                      <TableColumn fx:id="secondNameColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.secondName" />
+                        <TableColumn fx:id="addressColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.address" />
+                        <TableColumn fx:id="postCodeColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.postCode" />
+                        <TableColumn fx:id="cityColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.city" />
+                        <TableColumn fx:id="stateCoulmn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.state" />
+                        <TableColumn fx:id="phoneColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.phone" />
+                        <TableColumn fx:id="salaryColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.salary" />
+                        <TableColumn fx:id="loginColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.login" />
+                        <TableColumn fx:id="passColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.pass" />
+                        <TableColumn fx:id="contractStartColumn" onEditCommit="#editColumnItem" prefWidth="125.0" text="%admin.contractStart" />
+                        <TableColumn fx:id="contractEndColumn" onEditCommit="#editColumnItem" prefWidth="125.0" text="%admin.contractEnd" />
+                        <TableColumn fx:id="admPrivColumn" onEditCommit="#editColumnItem" prefWidth="100.0" text="%admin.admPriv" />
                     </columns>
                   </TableView>
                </content>

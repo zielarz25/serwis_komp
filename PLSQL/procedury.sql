@@ -42,7 +42,7 @@ END;
 CALL ADD_ACCOUNT('imie','nazwisko','adres',0000,'miasto','wojewodztwo',123,0,'18/01/05','18/01/10','login','pass',1000);
 
 
--- usuwanie z bazy (niezalecane używanie, bo znika ślad po pracowniku)
+-- usuwanie z bazy (niezalecane używanie, bo znika ślad po pracowniku - można użyć tylko w przypadku błędnego dodania)
 create or replace procedure delete_account
 (	pAccId IN NUMBER
 )
@@ -50,6 +50,26 @@ IS
 BEGIN
     DELETE FROM SERWIS.PRACOWNICY WHERE ID_PRACOWNIKA = pAccId;
     DELETE FROM SERWIS.UMOWY WHERE ID_PRACOWNIKA = pAccId;
+commit;
+END;
+
+--zwolnienie pracownika
+-- uniemożliwia logowanie i zmienia datę końca umowy
+create or replace procedure dismiss_worker
+(	pAccId IN NUMBER
+)
+IS
+vDismissDate DATE; 
+BEGIN
+    vDismissDate := SYSDATE;
+    
+    UPDATE SERWIS.PRACOWNICY
+    SET UPRAWNIENIA_ADMIN = -1
+    WHERE ID_PRACOWNIKA = pAccId;
+    
+    UPDATE SERWIS.UMOWY
+    SET DATA_ZAKONCZENIA = vDismissDate
+    WHERE ID_PRACOWNIKA = pAccId;
 commit;
 END;
 

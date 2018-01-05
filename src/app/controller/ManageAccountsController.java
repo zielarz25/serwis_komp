@@ -5,6 +5,9 @@ import app.model.AccountDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.sql.SQLException;
 
@@ -121,6 +124,25 @@ public class ManageAccountsController {
         contractEndColumn.setCellValueFactory(cellData -> cellData.getValue().contractEndProperty());
         admPrivColumn.setCellValueFactory(cellData -> cellData.getValue().accPrivProperty().asObject());
 
+
+        firstNameColumn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        secondNameColumn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        addressColumn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        postCodeColumn.setCellFactory(TextFieldTableCell.<Account,Integer>forTableColumn(new IntegerStringConverter()));
+        cityColumn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        stateCoulmn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        phoneColumn.setCellFactory(TextFieldTableCell.<Account,Integer>forTableColumn(new IntegerStringConverter()));
+        salaryColumn.setCellFactory(TextFieldTableCell.<Account,Double>forTableColumn(new DoubleStringConverter()));
+        loginColumn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        passColumn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        contractStartColumn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        contractEndColumn.setCellFactory(TextFieldTableCell.<Account>forTableColumn());
+        admPrivColumn.setCellFactory(TextFieldTableCell.<Account,Integer>forTableColumn(new IntegerStringConverter()));
+
+        usersTableView.setEditable(true);
+
+
+
         refreshTableView();
 
     }
@@ -157,6 +179,7 @@ public class ManageAccountsController {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        refreshTableView();
     }
 
     @FXML
@@ -178,6 +201,92 @@ public class ManageAccountsController {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        refreshTableView();
     }
+
+    public void editColumnItem(TableColumn.CellEditEvent<Account, String> e) throws SQLException {
+
+        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+        secondNameColumn.setCellValueFactory(cellData -> cellData.getValue().secondNameProperty());
+        addressColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
+        postCodeColumn.setCellValueFactory(cellData -> cellData.getValue().postCodeProperty().asObject());
+        cityColumn.setCellValueFactory( cellData -> cellData.getValue().cityProperty());
+        stateCoulmn.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
+        phoneColumn.setCellValueFactory(cellData -> cellData.getValue().phoneProperty().asObject());
+        salaryColumn.setCellValueFactory(cellData -> cellData.getValue().salaryProperty().asObject());
+        loginColumn.setCellValueFactory(cellData -> cellData.getValue().loginProperty());
+        passColumn.setCellValueFactory(cellData -> cellData.getValue().passProperty());
+        contractStartColumn.setCellValueFactory(cellData -> cellData.getValue().contractStartProperty());
+        contractEndColumn.setCellValueFactory(cellData -> cellData.getValue().contractEndProperty());
+        admPrivColumn.setCellValueFactory(cellData -> cellData.getValue().accPrivProperty().asObject());
+
+        String colId = e.getTableColumn().getId();
+        String colName = convertColNames(colId);
+        System.out.println(colId);
+        System.out.println(colName);
+
+        // AccountID of account to be edited
+        int index = (e.getTableView().getItems().get(e.getTablePosition().getRow()).getAccId());
+//        System.out.println(index);
+
+        Object newValue = e.getNewValue();
+//        System.out.println(newValue.toString());  // e.getNewValue().toString() nie działą
+
+        AccountDAO.updateAcc(index, colName, newValue);
+    }
+
+    /**
+     * Method converts TableView columns names to corresponding in Database
+     * @param colId - column name in TableView
+     *
+     * @return - column name in Database
+     */
+    private String convertColNames(String colId) {
+        String colName = "";
+        switch (colId){
+            case "firstNameColumn":
+                colName = "IMIE";
+                break;
+            case "secondNameColumn":
+                colName = "NAZWISKO";
+                break;
+            case "addressColumn":
+                colName = "ADRES";
+                break;
+            case "postCodeColumn":
+                colName = "KOD_POCZTOWY";
+                break;
+            case "cityColumn":
+                colName = "MIASTO";
+                break;
+            case "stateCoulmn":
+                colName = "WOJEWODZTWO";
+                break;
+            case "phoneColumn":
+                colName = "NR_TEL";
+                break;
+            case "salaryColumn":
+                colName = "WYPLATA";
+                break;
+            case "loginColumn":
+                colName = "LOGIN";
+                break;
+            case "passColumn":
+                colName = "HASLO";
+                break;
+            case "contractStartColumn":
+                colName = "DATA_ROZPOCZECIA";
+                break;
+            case "contractEndColumn":
+                colName = "DATA_ZAKONCZENIA";
+                break;
+            case "admPrivColumn":
+                colName = "UPRAWNIENIA_ADMIN";
+                break;
+
+        }
+        return colName;
+    }
+
 
 }

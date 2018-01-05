@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 public class AccountDAO {
     public static void addNewUser(String firstName, String secondName, String address,
@@ -68,14 +69,6 @@ public class AccountDAO {
         ObservableList<Account> list = FXCollections.observableArrayList();
 
         while (rs.next()) {
-//            int userNo = rs.getInt(1);
-//            String userLogin = rs.getString(2);
-//            String userPass = rs.getString(3);
-//            //String permType = rs.getString(3);
-//            String firstName = rs.getString(5);
-//            String lastName = rs.getString(6);
-//            int phone = rs.getInt(7);
-//            String email = rs.getString(8);
             int accId = rs.getInt("ID_PRACOWNIKA");
             int contractId = rs.getInt("NR_UMOWY");
             String firstName = rs.getString("IMIE");
@@ -86,11 +79,12 @@ public class AccountDAO {
             String state = rs.getString("WOJEWODZTWO");
             int phone = rs.getInt("NR_TEL");
             int accPriv = rs.getInt("UPRAWNIENIA_ADMIN");
-            String contractStart = rs.getString("DATA_ROZPOCZECIA");
-            String contractEnd = rs.getString("DATA_ZAKONCZENIA");
+            String contractStart = new SimpleDateFormat("yy/MM/dd").format(rs.getTimestamp("DATA_ROZPOCZECIA"));
+            String contractEnd = new SimpleDateFormat("yy/MM/dd").format(rs.getTimestamp("DATA_ZAKONCZENIA"));
             String login = rs.getString("LOGIN");
             String pass = rs.getString("HASLO");
             Double salary = rs.getDouble("WYPLATA");
+
 
 
             Account a = new Account(accId, contractId, firstName, secondName, address, postCode, city, state,
@@ -100,6 +94,39 @@ public class AccountDAO {
         return list;
 
 
+    }
+
+    public static void updateAcc(int index, String colName, Object newValue) {
+        String stmt;
+        switch (colName){
+            case "DATA_ROZPOCZECIA":
+            case "DATA_ZAKONCZENIA":
+                stmt = String.format("UPDATE SERWIS.UMOWY SET %s = '%s' WHERE ID_PRACOWNIKA = %s",colName, newValue, index);
+
+                try {
+                    DBUtils.dbExecuteUpdate(stmt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "WYPLATA":
+                stmt = String.format("UPDATE SERWIS.UMOWY SET %s = %s WHERE ID_PRACOWNIKA = %s",colName, newValue, index);
+
+                try {
+                    DBUtils.dbExecuteUpdate(stmt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                stmt = String.format("UPDATE SERWIS.PRACOWNICY SET %s = '%s' WHERE ID_PRACOWNIKA = %s",colName, newValue, index);
+                try {
+                    DBUtils.dbExecuteUpdate(stmt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
     }
 
 
