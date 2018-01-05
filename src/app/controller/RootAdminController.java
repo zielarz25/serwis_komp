@@ -4,9 +4,11 @@ import app.util.FXMLUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
 
@@ -44,6 +46,12 @@ public class RootAdminController {
     void manageAccounts(ActionEvent event) {
         rootPane.setCenter(FXMLUtils.fxmlLoad(MANAGE_ACC_FXML_PATH));
 
+    }
+
+    @FXML
+    void logout(ActionEvent event) {
+        Stage currStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        rootController.showLoginWindow(currStage);
     }
 
 }

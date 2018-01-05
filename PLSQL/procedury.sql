@@ -39,4 +39,17 @@ commit;
 END;
 
 -- przykład użycia
-EXECUTE ADD_ACCOUNT('imie','nazwisko','adres',0000,'miasto','wojewodztwo',123,0,'18/01/05','18/01/10','login','pass',1000);
+CALL ADD_ACCOUNT('imie','nazwisko','adres',0000,'miasto','wojewodztwo',123,0,'18/01/05','18/01/10','login','pass',1000);
+
+
+-- usuwanie z bazy (niezalecane używanie, bo znika ślad po pracowniku)
+create or replace procedure delete_account
+(	pAccId IN NUMBER
+)
+IS
+BEGIN
+    DELETE FROM SERWIS.PRACOWNICY WHERE ID_PRACOWNIKA = pAccId;
+    DELETE FROM SERWIS.UMOWY WHERE ID_PRACOWNIKA = pAccId;
+commit;
+END;
+

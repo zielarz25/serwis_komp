@@ -29,7 +29,31 @@ public class AccountDAO {
             //Return exception
             throw e;
         }
+    }
 
+    public static void deleteAccount(String userId) throws SQLException, ClassNotFoundException {
+
+        String stmt = String.format("call DELETE_ACCOUNT(%s)", userId);
+
+        try {
+            DBUtils.dbExecuteUpdate(stmt);
+        } catch (SQLException e) {
+            System.out.println("An error occurred while adding new account: " + e);
+            //Return exception
+            throw e;
+        }
+    }
+    public static void dismissEmployee(String userId) throws SQLException, ClassNotFoundException {
+
+        String stmt = String.format("CALL DISMISS_WORKER(%s)", userId);
+
+        try {
+            DBUtils.dbExecuteUpdate(stmt);
+        } catch (SQLException e) {
+            System.out.println("An error occurred while adding new account: " + e);
+            //Return exception
+            throw e;
+        }
     }
 
     public static ObservableList<Account> getAllUsers() throws SQLException {

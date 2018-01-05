@@ -63,11 +63,11 @@ public class RootController {
         // Init login layout
 //
         loader = new FXMLLoader();
-
         loader = FXMLUtils.getLoader(VIEW_LOGIN_POPUP_FXML);
         bundle = FXMLUtils.getResourceBundle();
 
     }
+
 
     @FXML
     public void login(ActionEvent event) throws SQLException {
@@ -148,6 +148,7 @@ public class RootController {
             // Show the scene
             Scene scene = new Scene(loginLayout);
             loginStage.setScene(scene);
+            loginStage.centerOnScreen();
             loginStage.show();
 
         } catch (IOException e) {
@@ -155,6 +156,7 @@ public class RootController {
             e.printStackTrace();
         }
     }
+
 
 
 }

@@ -98,6 +98,12 @@ public class ManageAccountsController {
     private TableColumn<Account, Integer> admPrivColumn;
 
     @FXML
+    private TextField userIdDelTextField;
+
+    @FXML
+    private TextField userIdFireTextField;
+
+    @FXML
     void initialize() {
         userIdColumn.setCellValueFactory( cellData -> cellData.getValue().accIdProperty().asObject());
         contractIdColumn.setCellValueFactory(cellData -> cellData.getValue().contractIdProperty().asObject());
@@ -148,6 +154,27 @@ public class ManageAccountsController {
             AccountDAO.addNewUser(firstName, secondName, address, postCode, city, state, phone,
                     adminAcc, contractStart, contractEnd, login, pass , salary);
             System.out.println("Account added");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void deleteAccount(ActionEvent event) {
+        String userIdToDelete = userIdDelTextField.getText();
+        try {
+            AccountDAO.deleteAccount(userIdToDelete);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        refreshTableView();
+    }
+
+    @FXML
+    void dismissWorker(ActionEvent event) {
+        String userIdToDismiss = userIdFireTextField.getText();
+        try {
+            AccountDAO.dismissEmployee(userIdToDismiss);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
