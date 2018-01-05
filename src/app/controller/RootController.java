@@ -103,6 +103,7 @@ public class RootController {
                 Scene scene = new Scene(root);
                 Stage currStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currStage.setScene(scene);
+                currStage.centerOnScreen();
 
                 RootAdminController rootAdminController = loader.getController();
                 rootAdminController.setLoggedUser(username);
@@ -127,6 +128,7 @@ public class RootController {
                 Scene scene = new Scene(root);
                 Stage currStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currStage.setScene(scene);
+                currStage.centerOnScreen();
 
                 RootUserController rootUserController = loader.getController();
                 rootUserController.setLoggedUser(username);

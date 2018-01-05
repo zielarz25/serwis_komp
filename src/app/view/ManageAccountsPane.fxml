@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.ManageAccountsController">
+   <children>
+      <VBox layoutX="6.0" layoutY="6.0" prefWidth="900.0">
+         <children>
+            <Label text="%admin.addAcc" />
+            <GridPane hgap="15.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="125.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="%admin.firstName" />
+                  <Label text="%admin.secondName" GridPane.rowIndex="1" />
+                  <Label text="%admin.address" GridPane.rowIndex="2" />
+                  <Label text="%admin.postCode" GridPane.rowIndex="3" />
+                  <TextField fx:id="firstNameTextField" GridPane.columnIndex="1" />
+                  <TextField fx:id="secondNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="addressTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="postCodeTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label text="%admin.city" GridPane.columnIndex="2" />
+                  <Label text="%admin.state" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label text="%admin.phone" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="cityTextField" GridPane.columnIndex="3" />
+                  <TextField fx:id="stateTextField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <TextField fx:id="phoneTextField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <TextField fx:id="loginTextField" GridPane.columnIndex="5" />
+                  <TextField fx:id="passTextField" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <TextField fx:id="contractStartTextField" promptText="RR/MM/DD" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                  <TextField fx:id="salaryTextField" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <Label text="%admin.login" GridPane.columnIndex="4" />
+                  <Label text="%admin.pass" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <Label text="%admin.contractStart" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Label text="%admin.salary" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Button alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#addAccount" text="%admin.add" wrapText="true" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                  <Label text="%admin.contractEnd" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <TextField fx:id="contractEndTextField" promptText="RR/MM/DD" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                  <CheckBox fx:id="admAccCheckBox" mnemonicParsing="false" text="%admin.admPriv" GridPane.columnIndex="6" />
+               </children>
+            </GridPane>
+            <Separator prefWidth="200.0" />
+         </children>
+         <padding>
+            <Insets left="25.0" right="25.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

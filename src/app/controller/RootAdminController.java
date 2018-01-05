@@ -2,8 +2,11 @@ package app.controller;
 
 import app.util.FXMLUtils;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.util.ResourceBundle;
 
@@ -11,6 +14,11 @@ public class RootAdminController {
     RootController rootController;
     private ResourceBundle bundle = FXMLUtils.getResourceBundle();
     private String loggedUser;
+    private static final String MANAGE_ACC_FXML_PATH = "../view/ManageAccountsPane.fxml";
+
+    @FXML
+    private BorderPane rootPane;
+
     @FXML
     private Label label;
 
@@ -31,4 +39,11 @@ public class RootAdminController {
         Platform.runLater(()-> label.setText(bundle.getString("logged.user") + loggedUser));
 
     }
+
+    @FXML
+    void manageAccounts(ActionEvent event) {
+        rootPane.setCenter(FXMLUtils.fxmlLoad(MANAGE_ACC_FXML_PATH));
+
+    }
+
 }
