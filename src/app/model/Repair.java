@@ -1,15 +1,24 @@
 package app.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Repair {
     private IntegerProperty repairId = new SimpleIntegerProperty();
     private StringProperty repairInfo = new SimpleStringProperty("");
     private StringProperty status = new SimpleStringProperty("");
     private StringProperty startDate = new SimpleStringProperty("");
+
+    //----------
+    private StringProperty serviceName = new SimpleStringProperty("");
+    private DoubleProperty price = new SimpleDoubleProperty();
+
+    //-------
+    private StringProperty producer = new SimpleStringProperty("");
+    private StringProperty category = new SimpleStringProperty("");
+    private StringProperty model = new SimpleStringProperty("");
+    private DoubleProperty price2 = new SimpleDoubleProperty();
+    // price
+
 
     public Repair() {
     }
@@ -20,6 +29,18 @@ public class Repair {
         this.status.setValue(status);
         this.startDate.setValue(startDate);
 
+    }
+
+    public Repair(String serviceName, double price) {
+        this.serviceName.setValue(serviceName);
+        this.price.setValue(price);
+    }
+
+    public Repair(String producer, String category, String model, double price2) {
+        this.price2.setValue(price2);
+        this.producer.setValue(producer);
+        this.category.setValue(category);
+        this.model.setValue(model);
     }
 
     public int getRepairId() {
@@ -68,6 +89,79 @@ public class Repair {
 
     public void setStartDate(String startDate) {
         this.startDate.set(startDate);
+    }
+
+
+    public String getServiceName() {
+        return serviceName.get();
+    }
+
+    public StringProperty serviceNameProperty() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName.set(serviceName);
+    }
+
+    public double getPrice() {
+        return price.get();
+    }
+
+    public DoubleProperty priceProperty() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price.set(price);
+    }
+
+    public String getProducer() {
+        return producer.get();
+    }
+
+    public StringProperty producerProperty() {
+        return producer;
+    }
+
+    public void setProducer(String producer) {
+        this.producer.set(producer);
+    }
+
+    public String getCategory() {
+        return category.get();
+    }
+
+    public StringProperty categoryProperty() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category.set(category);
+    }
+
+    public String getModel() {
+        return model.get();
+    }
+
+    public StringProperty modelProperty() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model.set(model);
+    }
+
+    public double getPrice2() {
+        return price2.get();
+    }
+
+    public DoubleProperty price2Property() {
+        return price2;
+    }
+
+    public void setPrice2(double price2) {
+        this.price2.set(price2);
     }
 
     @Override

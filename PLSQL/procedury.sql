@@ -110,3 +110,49 @@ END;
 -- result = 0 jesli nie mozna drugi raz przydzielic, 1 jesli przydzielono
 select take_work(1,1) as "result" from dual;
 
+
+-- wyswietlenie aktualnych napraw danego pracownika
+select ID_NAPRAWY FROM PRACE_NAPRAWCZE p NATURAL JOIN ZAMOWIENIE_NAPRAWY z WHERE ID_PRACOWNIKA = 1 AND STATUS NOT LIKE 'naprawiony' GROUP BY ID_NAPRAWY;
+
+-- wyświetlanie wszystkich wykonanych usług
+select NAZWA_USLUGI, CENA FROM PRACE_NAPRAWCZE NATURAL JOIN CENNIK WHERE ID_NAPRAWY = 1;
+
+-- wyswietlenie wymienionych czesci 
+select NAZWA_KATEGORII, NAZWA_PRODUCENTA, MODEL, CENA FROM PRACE_NAPRAWCZE_CZESCI NATURAL JOIN CZESCI_ZAMIENNE NATURAL JOIN PRACE_NAPRAWCZE NATURAL JOIN KATEGORIE NATURAL JOIN PRODUCENCI WHERE ID_NAPRAWY = 1;
+
+-- wykonaj usluge 
+create or replace procedure doService( 
+pServiceId NUMBER,  -- nr uslugi z cennika
+pRepairId NUMBER,   -- nr pracy (ktory sprzet)
+pWorkerId NUMBER    -- nr pracownika
+)
+IS
+vWorkNo NUMBER;
+BEGIN
+SELECT MAX(ID_PRACY)+1 INTO vWorkNo FROM PRACE_NAPRAWCZE;
+INSERT INTO PRACE_NAPRAWCZE (ID_PRACY, ID_USLUGI, ID_NAPRAWY, ID_PRACOWNIKA)
+VALUES (vWorkNo, pServiceId, pRepairId, pWorkerId);
+commit;
+END;
+
+-- wyszukaj części danego typu i danego producenta
+
+SELECT ID_CZESCI, MODEL, CENA FROM CZESCI_ZAMIENNE c LEFT JOIN MAGAZYN m ON m.id_czesci = c.ID_CZESCI WHERE c.ID_KATEGORII = 1AND c.ID_PRODUCENTA = 1
+
+--zatwierdza wymiane czesci u klienta
+create or replace procedure exchangePart(
+pIdNaprawy NUMBER,
+pIdCzesci NUMBER
+)
+IS
+-- numer pracy napraczej gdy wymieniano czesc (100- kod wymiany czesci)
+-- nie bierze pod uwagę przypadku, że wpisano usługi wymiana części i nie ma vPracyNaprawczej
+vPracaNaprawcza NUMBER;
+BEGIN
+SELECT max(ID_PRACY) INTO vPracaNaprawcza FROM PRACE_NAPRAWCZE WHERE ID_NAPRAWY=pIdNaprawy AND ID_USLUGI = 100;
+
+INSERT INTO PRACE_NAPRAWCZE_CZESCI (ID_PRACY, ID_CZESCI)
+VALUES (vPracaNaprawcza, pIdCzesci);
+commit;
+END;
+

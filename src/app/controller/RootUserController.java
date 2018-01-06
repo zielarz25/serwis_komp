@@ -20,6 +20,7 @@ public class RootUserController {
     private ResourceBundle bundle = FXMLUtils.getResourceBundle();
     private String loggedUser;
     private static final String TAKE_REPAIR_FXML_PATH = "../view/TakeRepairPane.fxml";
+    private static final String MANAGE_REPAIRS_FXML_PATH = "../view/ManageRepairsPane.fxml";
     @FXML
     private Label label;
 
@@ -59,6 +60,22 @@ public class RootUserController {
         controller.setUserLogin(loggedUser);
         rootPane.setCenter(pane);
 
+    }
+
+    @FXML
+    void manageRepairs(ActionEvent event) {
+        Pane pane = null;
+        FXMLLoader loader = FXMLUtils.getLoader(MANAGE_REPAIRS_FXML_PATH);
+
+        try {
+            pane = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ManageRepairsController controller = loader.getController();
+        controller.setUserLogin(loggedUser);
+        rootPane.setCenter(pane);
     }
 
 
