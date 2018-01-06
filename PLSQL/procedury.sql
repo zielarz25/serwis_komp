@@ -89,21 +89,23 @@ RETURN NUMBER
 IS
 PRAGMA AUTONOMOUS_TRANSACTION;
 	vFlag NUMBER;
+    vWorkNo NUMBER;
 BEGIN
+    SELECT max(ID_PRACY)+1 INTO vWorkNo FROM PRACE_NAPRAWCZE;
     SELECT CASE WHEN EXISTS (SELECT * FROM ZAMOWIENIE_NAPRAWY WHERE ID_NAPRAWY = pReportNo AND STATUS = 'nowy') THEN 1 ELSE 0 END INTO vFlag FROM dual;
     IF vFlag = 1 THEN
-        INSERT INTO PRACE_NAPRAWCZE (ID_USLUGI, ID_NAPRAWY, ID_PRACOWNIKA)
+        INSERT INTO PRACE_NAPRAWCZE (ID_PRACY, ID_USLUGI, ID_NAPRAWY, ID_PRACOWNIKA)
         -- id usugi = 1 - przyjęcie do serwisu
-        VALUES (1, pReportNo, pUserId);
+        VALUES (vWorkNo, 1, pReportNo, pUserId);
 
         UPDATE "SERWIS"."ZAMOWIENIE_NAPRAWY"
-        SET STATUS = 'przyjeto'
+        SET STATUS = 'w naprawie'
         WHERE ID_NAPRAWY = pReportNo;
         commit;
     ELSE
         vFlag := 0;
     END IF;
-    
+
 RETURN vFlag;
 END;
 
@@ -156,3 +158,19 @@ VALUES (vPracaNaprawcza, pIdCzesci);
 commit;
 END;
 
+-- zakończenie serwisowania - status naprawiony
+create or replace procedure end_repair(
+workNo NUMBER
+)
+IS
+BEGIN
+        UPDATE ZAMOWIENIE_NAPRAWY
+        SET STATUS = 'naprawiony'
+        WHERE ID_NAPRAWY = workNo;
+commit;
+END;
+
+
+
+
+-----

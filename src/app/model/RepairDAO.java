@@ -53,6 +53,7 @@ public class RepairDAO {
         String stmt = String.format("select take_work(%s,%s) as \"result\" from dual", userId, reportId);
         ResultSet rs = null;
         try {
+            System.out.println(stmt);
             rs = DBUtils.dbExecuteQuery(stmt);
         } catch (SQLException e) {
             System.out.println("An error occurred while taking work: " + e);
@@ -138,6 +139,20 @@ public class RepairDAO {
         }
 
         return l;
+    }
+
+    public static void endRepair(String repairId) throws SQLException, ClassNotFoundException {
+
+        String stmt = String.format("call end_repair(%s)", repairId);
+
+        try {
+            DBUtils.dbExecuteUpdate(stmt);
+        } catch (SQLException e) {
+            System.out.println("An error occurred while closing repair: " + e);
+            //Return exception
+            throw e;
+        }
+
     }
 
 

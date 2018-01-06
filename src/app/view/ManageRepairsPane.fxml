@@ -54,5 +54,6 @@
       <Button layoutX="641.0" layoutY="389.0" mnemonicParsing="false" onAction="#producerConfirm" prefHeight="25.0" prefWidth="40.0" text="OK" />
       <ChoiceBox fx:id="modelChoiceBox" layoutX="450.0" layoutY="429.0" prefHeight="25.0" prefWidth="169.0" />
       <Button layoutX="641.0" layoutY="429.0" mnemonicParsing="false" onAction="#changePartConfirm" prefHeight="25.0" prefWidth="40.0" text="OK" />
+      <Button layoutX="375.0" layoutY="500.0" mnemonicParsing="false" onAction="#endRepair" prefHeight="50.0" prefWidth="150.0" text="%user.endRepair" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="10.0" />
    </children>
 </AnchorPane>

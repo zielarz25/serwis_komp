@@ -62,6 +62,19 @@ public class ManageRepairsController {
     @FXML
     private ChoiceBox<Model> modelChoiceBox;
 
+    @FXML
+    void endRepair(ActionEvent event) {
+        try {
+            RepairDAO.endRepair(workId+"");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        refreshTableView1();
+        refreshTableView2();
+        initChoiceBox();
+    }
 
     @FXML
     void changePartConfirm(ActionEvent event) {
