@@ -165,8 +165,11 @@ workNo NUMBER
 IS
 BEGIN
         UPDATE ZAMOWIENIE_NAPRAWY
-        SET STATUS = 'naprawiony'
+        SET STATUS = 'naprawiony',
+        DATA_ZAKONCZENIA = SYSDATE
         WHERE ID_NAPRAWY = workNo;
+        
+
 commit;
 END;
 

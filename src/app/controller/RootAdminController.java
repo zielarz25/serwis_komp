@@ -17,6 +17,7 @@ public class RootAdminController {
     private ResourceBundle bundle = FXMLUtils.getResourceBundle();
     private String loggedUser;
     private static final String MANAGE_ACC_FXML_PATH = "../view/ManageAccountsPane.fxml";
+    private static final String MANAGE_PRICES_FXML_PATH = "../view/ManagePricesPane.fxml";
 
     @FXML
     private BorderPane rootPane;
@@ -46,6 +47,11 @@ public class RootAdminController {
     void manageAccounts(ActionEvent event) {
         rootPane.setCenter(FXMLUtils.fxmlLoad(MANAGE_ACC_FXML_PATH));
 
+    }
+
+    @FXML
+    void managePrices(ActionEvent event) {
+        rootPane.setCenter(FXMLUtils.fxmlLoad(MANAGE_PRICES_FXML_PATH));
     }
 
     @FXML
