@@ -73,3 +73,40 @@ BEGIN
 commit;
 END;
 
+
+
+-- 
+SELECT ID_NAPRAWY, OPIS_USTERKI, STATUS, DATA_ROZPOCZECIA from ZAMOWIENIE_NAPRAWY;
+
+
+-- przyjęcie komputera do naprawy
+
+create or replace function take_work
+(   pUserId NUMBER,
+    pReportNo NUMBER -- nr zgloszenia wybrany przez pracownika z tabeli zamowienie_naprawy
+)
+RETURN NUMBER 
+IS
+PRAGMA AUTONOMOUS_TRANSACTION;
+	vFlag NUMBER;
+BEGIN
+    SELECT CASE WHEN EXISTS (SELECT * FROM ZAMOWIENIE_NAPRAWY WHERE ID_NAPRAWY = pReportNo AND STATUS = 'nowy') THEN 1 ELSE 0 END INTO vFlag FROM dual;
+    IF vFlag = 1 THEN
+        INSERT INTO PRACE_NAPRAWCZE (ID_USLUGI, ID_NAPRAWY, ID_PRACOWNIKA)
+        -- id usugi = 1 - przyjęcie do serwisu
+        VALUES (1, pReportNo, pUserId);
+
+        UPDATE "SERWIS"."ZAMOWIENIE_NAPRAWY"
+        SET STATUS = 'przyjeto'
+        WHERE ID_NAPRAWY = pReportNo;
+        commit;
+    ELSE
+        vFlag := 0;
+    END IF;
+    
+RETURN vFlag;
+END;
+
+-- result = 0 jesli nie mozna drugi raz przydzielic, 1 jesli przydzielono
+select take_work(1,1) as "result" from dual;
+
