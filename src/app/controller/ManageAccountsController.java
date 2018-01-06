@@ -148,14 +148,13 @@ public class ManageAccountsController {
     }
 
     public void refreshTableView() {
-
         try {
             usersTableView.setItems(AccountDAO.getAllUsers());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+
     @FXML
     void addAccount(ActionEvent event) {
         String firstName = firstNameTextField.getText();

@@ -12,7 +12,7 @@ public class ModelDAO {
     public static ObservableList<Model> getAvaliblePartModels(String categoryId, String producerId) throws SQLException, ClassNotFoundException {
 
         String stmt = String.format("SELECT c.ID_CZESCI, MODEL, CENA FROM CZESCI_ZAMIENNE c LEFT JOIN MAGAZYN m " +
-                "ON m.id_czesci = c.ID_CZESCI WHERE c.ID_KATEGORII = %s AND c.ID_PRODUCENTA = %s",categoryId, producerId);
+                "ON m.id_czesci = c.ID_CZESCI WHERE c.ID_KATEGORII = %s AND c.ID_PRODUCENTA = %s AND m.LICZBA_SZTUK > 0",categoryId, producerId);
 
         ResultSet rs = null;
         ObservableList<Model> list = FXCollections.observableArrayList();

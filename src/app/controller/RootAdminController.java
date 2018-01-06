@@ -18,6 +18,7 @@ public class RootAdminController {
     private String loggedUser;
     private static final String MANAGE_ACC_FXML_PATH = "../view/ManageAccountsPane.fxml";
     private static final String MANAGE_PRICES_FXML_PATH = "../view/ManagePricesPane.fxml";
+    private static final String MANAGE_STORE_FXML_PATH = "../view/ManageStorePane.fxml";
 
     @FXML
     private BorderPane rootPane;
@@ -52,6 +53,11 @@ public class RootAdminController {
     @FXML
     void managePrices(ActionEvent event) {
         rootPane.setCenter(FXMLUtils.fxmlLoad(MANAGE_PRICES_FXML_PATH));
+    }
+
+    @FXML
+    void manageStore(ActionEvent event) {
+        rootPane.setCenter(FXMLUtils.fxmlLoad(MANAGE_STORE_FXML_PATH));
     }
 
     @FXML

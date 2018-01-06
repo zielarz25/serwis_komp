@@ -48,5 +48,19 @@ public class PricesDAO {
         }
     }
 
+    public static void addNewService(String name, String price) throws SQLException, ClassNotFoundException {
+
+        String stmt = String.format("call add_new_service('%s', %s)", name, price);
+
+        try {
+            DBUtils.dbExecuteUpdate(stmt);
+        } catch (SQLException e) {
+            System.out.println("An error occurred while adding new price " + e);
+            System.out.println(stmt);
+            //Return exception
+            throw e;
+        }
+
+    }
 
 }

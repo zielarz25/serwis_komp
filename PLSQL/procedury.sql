@@ -137,9 +137,10 @@ VALUES (vWorkNo, pServiceId, pRepairId, pWorkerId);
 commit;
 END;
 
--- wyszukaj części danego typu i danego producenta
+-- wyszukaj dostępne części danego typu i danego producenta
 
-SELECT ID_CZESCI, MODEL, CENA FROM CZESCI_ZAMIENNE c LEFT JOIN MAGAZYN m ON m.id_czesci = c.ID_CZESCI WHERE c.ID_KATEGORII = 1AND c.ID_PRODUCENTA = 1
+--SELECT ID_CZESCI, MODEL, CENA FROM CZESCI_ZAMIENNE c LEFT JOIN MAGAZYN m ON m.id_czesci = c.ID_CZESCI WHERE c.ID_KATEGORII = 1AND c.ID_PRODUCENTA = 1
+SELECT c.ID_CZESCI, MODEL, CENA FROM CZESCI_ZAMIENNE c LEFT JOIN MAGAZYN m ON m.id_czesci = c.ID_CZESCI WHERE c.ID_KATEGORII = 1 AND c.ID_PRODUCENTA = 1 AND m.LICZBA_SZTUK > 0
 
 --zatwierdza wymiane czesci u klienta
 create or replace procedure exchangePart(
@@ -150,11 +151,21 @@ IS
 -- numer pracy napraczej gdy wymieniano czesc (100- kod wymiany czesci)
 -- nie bierze pod uwagę przypadku, że wpisano usługi wymiana części i nie ma vPracyNaprawczej
 vPracaNaprawcza NUMBER;
+vPiecesBefore NUMBER;
+vPiecesAfter NUMBER;
 BEGIN
 SELECT max(ID_PRACY) INTO vPracaNaprawcza FROM PRACE_NAPRAWCZE WHERE ID_NAPRAWY=pIdNaprawy AND ID_USLUGI = 100;
 
 INSERT INTO PRACE_NAPRAWCZE_CZESCI (ID_PRACY, ID_CZESCI)
 VALUES (vPracaNaprawcza, pIdCzesci);
+
+SELECT LICZBA_SZTUK INTO vPiecesBefore FROM MAGAZYN WHERE ID_CZESCI = pIdCzesci;
+vPiecesAfter := vPiecesBefore - 1;	
+    
+    UPDATE MAGAZYN
+    SET LICZBA_SZTUK = vPiecesAfter 
+    WHERE ID_CZESCI = pIdCzesci;
+
 commit;
 END;
 
@@ -174,6 +185,88 @@ commit;
 END;
 
 
+SELECT * FROM CENNIK
+
+-- wypisanie stanu magazynu
+select CZESCI_ZAMIENNE.ID_CZESCI, NAZWA_KATEGORII, NAZWA_PRODUCENTA, MODEL, CENA, LICZBA_SZTUK from (CZESCI_ZAMIENNE NATURAL JOIN PRODUCENCI NATURAL JOIN KATEGORIE) LEFT JOIN MAGAZYN ON magazyn.id_czesci = CZESCI_ZAMIENNE.ID_CZESCI  
 
 
------
+
+-- dodanie uslugi do cennika
+create or replace procedure add_new_service (
+pName VARCHAR2,
+pPrice FLOAT
+)
+IS
+vId NUMBER;
+BEGIN
+SELECT max(ID_USLUGI)+1 INTO vId FROM CENNIK;
+
+       INSERT INTO CENNIK (ID_USLUGI, NAZWA_USLUGI, CENA)
+       VALUES (vId, pName, pPrice);
+commit;
+END;
+
+
+-- dodawanie nowego podzespolu do bazy
+
+-- dodaje przedmiot
+-- jesli nie ma kategorii albo producenta, tez go dodaje
+create or replace procedure add_new_item (
+pCategory VARCHAR2,
+pProducer VARCHAR2,
+pModel VARCHAR2,
+pPrice NUMBER
+)
+IS
+vId NUMBER;
+vCategoryId NUMBER;
+vProducerId NUMBER;
+BEGIN
+SELECT max(ID_CZESCI)+1 INTO vId FROM CZESCI_ZAMIENNE;
+    BEGIN
+        SELECT ID_KATEGORII INTO vCategoryId FROM KATEGORIE WHERE UPPER(NAZWA_KATEGORII) LIKE UPPER(pCategory); -- znajdz id kategorii
+    EXCEPTION WHEN NO_DATA_FOUND THEN vCategoryId := null;
+    END;
+-- jesli nie ma dodaj
+IF vCategoryId IS NULL THEN
+    SELECT max(ID_KATEGORII)+1 INTO vCategoryId FROM KATEGORIE;
+    INSERT INTO KATEGORIE(ID_KATEGORII, NAZWA_KATEGORII)
+    VALUES (vCategoryId, pCategory);
+END IF;
+    BEGIN
+        SELECT ID_PRODUCENTA INTO vProducerId FROM PRODUCENCI WHERE UPPER(NAZWA_PRODUCENTA) LIKE UPPER(pProducer); -- znajdz id producenta
+    EXCEPTION WHEN NO_DATA_FOUND THEN vProducerId := null;
+    END;
+-- jesli nie ma dodaj 
+IF vProducerId IS NULL THEN
+    SELECT max(ID_PRODUCENTA)+1 INTO vProducerId FROM PRODUCENCI;
+    INSERT INTO PRODUCENCI(ID_PRODUCENTA, NAZWA_PRODUCENTA)
+    VALUES (vProducerId, pProducer);
+END IF;      
+
+       INSERT INTO CZESCI_ZAMIENNE (ID_CZESCI, ID_KATEGORII, ID_PRODUCENTA, MODEL, CENA)
+       VALUES (vId, vCategoryId, vProducerId, pModel, pPrice);
+       
+       INSERT INTO MAGAZYN (ID_CZESCI, LICZBA_SZTUK)
+       VALUES (vId, 0);
+commit;
+END;
+
+-- dodaj czesci do magazynu
+create or replace procedure add_items (
+pPartId NUMBER,
+pPiecesNo NUMBER
+)
+IS
+vPiecesBefore NUMBER;
+vPiecesAfter NUMBER;
+BEGIN
+	SELECT LICZBA_SZTUK INTO vPiecesBefore FROM MAGAZYN WHERE ID_CZESCI = pPartId;
+    vPiecesAfter := vPiecesBefore + pPiecesNo;
+	
+	UPDATE MAGAZYN
+    SET LICZBA_SZTUK = vPiecesAfter 
+    WHERE ID_CZESCI = pPartId;
+commit;
+END;

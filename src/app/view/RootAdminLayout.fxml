@@ -20,6 +20,11 @@
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                </HBox.margin>
             </Button>
+            <Button mnemonicParsing="false" onAction="#manageStore" prefHeight="100.0" prefWidth="100.0" text="%admin.manageStore" textAlignment="CENTER" wrapText="true">
+               <HBox.margin>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </HBox.margin>
+            </Button>
             <Button mnemonicParsing="false" onAction="#logout" prefHeight="100.0" prefWidth="100.0" text="%app.logout">
                <HBox.margin>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />

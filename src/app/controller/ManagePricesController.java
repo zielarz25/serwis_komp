@@ -100,7 +100,16 @@ public class ManagePricesController {
 
     @FXML
     void addPrice(ActionEvent event) {
-
+        String serviceName = serviceNameTextField.getText();
+        String price = priceTextField.getText();
+        try {
+            PricesDAO.addNewService(serviceName, price);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        refreshTableView();
     }
 
 
