@@ -171,16 +171,27 @@ END;
 
 -- zakończenie serwisowania - status naprawiony
 create or replace procedure end_repair(
-workNo NUMBER
+pWorkNo NUMBER
 )
 IS
+vBillNo NUMBER;
+vToPay NUMBER;
+vToPayServices NUMBER;
+vToPayParts NUMBER;
 BEGIN
+        SELECT max(ID_FAKTURY)+1 INTO vBillNo FROM PLATNOSCI;
+        SELECT SUM(CENA) INTO vToPayParts FROM PRACE_NAPRAWCZE NATURAL JOIN CENNIK WHERE ID_NAPRAWY = pWorkNo;
+        SELECT SUM(CENA) INTO vToPayServices FROM PRACE_NAPRAWCZE_CZESCI NATURAL JOIN PRACE_NAPRAWCZE NATURAL JOIN CZESCI_ZAMIENNE WHERE ID_NAPRAWY = pWorkNo;
+        
+        vToPay := vToPayParts + vToPayServices;
         UPDATE ZAMOWIENIE_NAPRAWY
         SET STATUS = 'naprawiony',
         DATA_ZAKONCZENIA = SYSDATE
-        WHERE ID_NAPRAWY = workNo;
+        WHERE ID_NAPRAWY = pWorkNo;
         
-
+        INSERT INTO PLATNOSCI(
+        ID_FAKTURY, ID_NAPRAWY, DO_ZAPLATY, ZAPLACONO)
+        VALUES (vBillNo, pWorkNo, vToPay, 0);
 commit;
 END;
 
