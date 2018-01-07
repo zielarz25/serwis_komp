@@ -71,9 +71,17 @@ public class ManageRepairsController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        refreshTableView1();
-        refreshTableView2();
+        clearTableViews();
         initChoiceBox();
+    }
+
+    private void clearTableViews() {
+        for ( int i = 0; i<partsTableView.getItems().size(); i++) {
+            partsTableView.getItems().clear();
+        }
+        for ( int i = 0; i<uslugiTableView.getItems().size(); i++) {
+            uslugiTableView.getItems().clear();
+        }
     }
 
     @FXML
