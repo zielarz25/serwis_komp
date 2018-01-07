@@ -21,6 +21,7 @@ public class RootUserController {
     private String loggedUser;
     private static final String TAKE_REPAIR_FXML_PATH = "../view/TakeRepairPane.fxml";
     private static final String MANAGE_REPAIRS_FXML_PATH = "../view/ManageRepairsPane.fxml";
+    private static final String CASHIER_FXML_PATH = "../view/CashierPane.fxml";
     @FXML
     private Label label;
 
@@ -78,6 +79,11 @@ public class RootUserController {
         rootPane.setCenter(pane);
     }
 
+    @FXML
+    void openCashier(ActionEvent event) {
+        Pane pane = FXMLUtils.fxmlLoad(CASHIER_FXML_PATH);
+        rootPane.setCenter(pane);
+    }
 
     @FXML
     void logout(ActionEvent event) {

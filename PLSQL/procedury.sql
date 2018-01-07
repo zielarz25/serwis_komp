@@ -287,3 +287,26 @@ BEGIN
     WHERE ID_CZESCI = pPartId;
 commit;
 END;
+
+-- wypisanie napraw do opłacenia
+select ID_NAPRAWY, IMIE as "IMIE_KLIENTA", NAZWISKO as "NAZWISKO_KLIENTA", DATA_ROZPOCZECIA, DATA_ZAKONCZENIA, STATUS, DO_ZAPLATY  FROM ZAMOWIENIE_NAPRAWY NATURAL JOIN KLIENCI NATURAL JOIN PLATNOSCI WHERE STATUS = 'naprawiony'
+
+-- zapłata
+create or replace procedure confirm_payment(
+pWorkNo NUMBER
+)
+IS
+vPaid NUMBER;
+BEGIN
+        SELECT DO_ZAPLATY INTO vPaid FROM PLATNOSCI WHERE ID_NAPRAWY = pWorkNo;
+       
+        UPDATE ZAMOWIENIE_NAPRAWY
+        SET STATUS = 'zakonczony'
+        WHERE ID_NAPRAWY = pWorkNo;
+
+        UPDATE PLATNOSCI
+        SET ZAPLACONO = vPaid
+        WHERE ID_NAPRAWY = pWorkNo;
+
+commit;
+END;
