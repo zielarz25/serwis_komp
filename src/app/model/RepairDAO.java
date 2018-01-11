@@ -70,7 +70,7 @@ public class RepairDAO {
     public static ObservableList<Integer> getAllUsersActiveWorksIDs(String userId) throws SQLException, ClassNotFoundException {
 
         String stmt = String.format("select ID_NAPRAWY FROM PRACE_NAPRAWCZE p NATURAL JOIN" +
-                        " ZAMOWIENIE_NAPRAWY z WHERE ID_PRACOWNIKA = %s AND STATUS NOT LIKE 'naprawiony' GROUP BY ID_NAPRAWY", userId);
+                        " ZAMOWIENIE_NAPRAWY z WHERE ID_PRACOWNIKA = %s AND STATUS LIKE 'w naprawie' GROUP BY ID_NAPRAWY", userId);
         ResultSet rs = null;
 
         try {
